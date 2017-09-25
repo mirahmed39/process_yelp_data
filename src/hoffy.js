@@ -1,4 +1,6 @@
 // hoffy.js
+const fs = require('fs');
+
 function sum(...numn) {
     let total = 0;
     const nums = numn;
@@ -19,7 +21,7 @@ function repeatCall(fn, n, arg) {
 
 function repeatCallAllArgs(fn, n, ...args) {
     let temp = args.reduce(function (prev, cur) {
-        return prev + cur + " ";
+        return prev + " " + cur;
     }, "");
     repeatCall(fn, n, temp);
 }
@@ -36,20 +38,68 @@ function maybe(fn) {
     };
 }
 
-function createFullName(firstName, lastName) {
-    return `${firstName} ${lastName}`;
+function constrainDecorator(fn, min, max) {
+    return function (...args) {
+       let output = fn(...args);
+       if (output < min)
+           return min;
+       else if (output > max)
+           return max;
+       else
+           return fn(...args);
+    };
 }
-//console.log('first');
-console.log(maybe(createFullName)('Frederick', 'Functionstein')); // Frederick Functionstein
-//console.log('second');
-//maybe(createFullName)(null, 'Functionstein');        // undefined
-//console.log('third');
-//maybe(createFullName)('Freddy', undefined);          // undefined
 
+function limitCallsDecorator(fn, n) {
+    let count = 0;
+    return function (...args) {
+        if (count < n) {
+            count++;
+            return fn(...args);
+        } else
+            return undefined;
+    };
+}
+
+function filterWith(fn) {
+    return function (array) {
+        return array.filter(function (ele) {
+            return fn(ele);
+        });
+    };
+}
+
+function simpleINIParse(s) {
+    let parsedString = s.split('\n');
+    let obj = {};
+    parsedString.map(function (ele) {
+        let keyAndVal = ele.split('=');
+        if (keyAndVal.length === 2) {
+            if (keyAndVal[0] === undefined)
+                obj[''] = keyAndVal[1];
+            else if ( keyAndVal[1] === undefined)
+                obj[keyAndVal[0]] = '';
+            else
+                obj[keyAndVal[0]] = keyAndVal[1];
+        }
+    });
+    return obj;
+}
+
+function readFileWith(fn) {
+    return function (fileName, callerFunction) {
+        fs.readFile(fileName, 'utf8', callerFunction);
+    };
+}
 
 module.exports = {
     sum: sum,
     repeatCall: repeatCall,
     repeatCallAllArgs: repeatCallAllArgs,
-    maybe: maybe
+    maybe: maybe,
+    constrainDecorator: constrainDecorator,
+    limitCallsDecorator: limitCallsDecorator,
+    filterWith: filterWith,
+    simpleINIParse: simpleINIParse,
+    readFileWith:readFileWith
 };
