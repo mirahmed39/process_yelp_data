@@ -19,6 +19,7 @@ function repeatCall(fn, n, arg) {
     });
 }
 
+// we can use loops.
 function repeatCallAllArgs(fn, n, ...args) {
     let temp = args.reduce(function (prev, cur) {
         return prev + " " + cur;
@@ -87,9 +88,19 @@ function simpleINIParse(s) {
 }
 
 function readFileWith(fn) {
-    return function (fileName, callerFunction) {
-        fs.readFile(fileName, 'utf8', callerFunction);
-    };
+    return function (fileName, callBackFn) {
+        fs.readFile(fileName, 'utf8', (err, data) => {
+            if (err) {
+                // there's an error
+                data = undefined;
+                callBackFn(err);
+            } else {
+                // there's no error, parse the file with original function
+                let parsedData = fn(data);
+                callBackFn(err, parsedData);
+            }
+        });
+    }
 }
 
 module.exports = {
@@ -101,5 +112,5 @@ module.exports = {
     limitCallsDecorator: limitCallsDecorator,
     filterWith: filterWith,
     simpleINIParse: simpleINIParse,
-    readFileWith:readFileWith
+    readFileWith: readFileWith,
 };
