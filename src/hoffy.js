@@ -91,9 +91,9 @@ function readFileWith(fn) {
     return function (fileName, callBackFn) {
         fs.readFile(fileName, 'utf8', (err, data) => {
             if (err) {
-                // there's an error
+                // there's an error.
                 data = undefined;
-                callBackFn(err);
+                callBackFn(err, data);
             } else {
                 // there's no error, parse the file with original function
                 let parsedData = fn(data);
