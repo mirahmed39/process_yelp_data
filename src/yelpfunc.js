@@ -56,7 +56,9 @@ function mostCommonName(restaurants) {
         else
             obj[name] = obj[name] + 1;
     });
-    let arr = Object.values(obj);
+    let arr = Object.keys(obj).map(function (key) {
+        return obj[key];
+    });
     let mostAppearedNumber = Math.max(...arr);
     let mostAppearedName = "";
     restaurantNames.forEach(function (resName) {
