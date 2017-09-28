@@ -22,10 +22,12 @@ function repeatCall(fn, n, arg) {
 // we can use loops.
 function repeatCallAllArgs(fn, n, ...args) {
     let temp = args.reduce(function (prev, cur) {
-        return prev + " " + cur;
+        return prev + " "+ cur;
     }, "");
     repeatCall(fn, n, temp);
 }
+
+//repeatCallAllArgs(console.log, 2, "foo", "bar", "baz", "qux", "quxx", "corge");
 
 function maybe(fn) {
     return function (...args) {
