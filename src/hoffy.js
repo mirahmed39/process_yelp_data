@@ -19,7 +19,7 @@ function repeatCall(fn, n, arg) {
     });
 }
 
-// we can use loops.
+// we can also use loops
 function repeatCallAllArgs(fn, n, ...args) {
     let temp = args.reduce(function (prev, cur) {
         return prev + " "+ cur;
@@ -79,11 +79,11 @@ function simpleINIParse(s) {
         let keyAndVal = ele.split('=');
         if (keyAndVal.length === 2) {
             if (keyAndVal[0] === undefined)
-                obj[''] = keyAndVal[1];
+                obj[''] = keyAndVal[1].trim();
             else if ( keyAndVal[1] === undefined)
                 obj[keyAndVal[0]] = '';
             else
-                obj[keyAndVal[0]] = keyAndVal[1];
+                obj[keyAndVal[0]] = keyAndVal[1].trim();
         }
     });
     return obj;
@@ -105,6 +105,7 @@ function readFileWith(fn) {
     }
 }
 
+// these functions will be imported from another file.
 module.exports = {
     sum: sum,
     repeatCall: repeatCall,
