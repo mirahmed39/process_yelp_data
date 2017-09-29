@@ -19,14 +19,14 @@ function parseJsonFiles(url) {
             if (parsedObjects[parsedObjects.length-1].hasOwnProperty("nextFile")) {
                 let jsonObjectsSliced = parsedObjects.slice(0, jsonObjects.length - 1);
                 console.log("==============================");
-                console.log(baseUrl + currentUrl);
+                console.log("url: " + baseUrl + currentUrl);
                 console.log("==============================");
                 console.log(app.processYelpData(jsonObjectsSliced));
                 currentUrl = parsedObjects[parsedObjects.length -1].nextFile;
                 parseJsonFiles(baseUrl+currentUrl);
             } else {
                 console.log("==============================");
-                console.log(baseUrl + currentUrl);
+                console.log("url: " + baseUrl + currentUrl);
                 console.log("==============================");
                 console.log(app.processYelpData(parsedObjects));
             }
