@@ -6,7 +6,7 @@ function averageRating(restaurants) {
     restaurants.forEach(function (ele) {
         totalRating += ele.stars;
     });
-    let averageRating = totalRating / restaurants.length;
+    let averageRating = (totalRating / restaurants.length).toFixed(2);
     output += "* Average rating of the dataset:" +averageRating;
     return output;
 }
@@ -88,6 +88,7 @@ function stateCount(restaurants) {
     });
     return output;
 }
+
 function processYelpData(restaurants) {
     let yelpData = "";
     yelpData += averageRating(restaurants) + "\n";
